@@ -19,6 +19,7 @@ namespace EfCoreProjectInternship.Data.Configurations
                 .HasForeignKey(q => q.ParentCommentId)
                 .OnDelete(DeleteBehavior.Restrict); 
 
+
             builder.HasQueryFilter(x => x.isDeleted == false);
         }
     }

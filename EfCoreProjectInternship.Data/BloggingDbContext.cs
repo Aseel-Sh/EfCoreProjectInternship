@@ -1,4 +1,5 @@
 ﻿using EfCoreProjectInternship.Domain;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
@@ -45,5 +46,6 @@ namespace EfCoreProjectInternship.Data
 
             return base.SaveChangesAsync(cancellationToken);
         }
+
     }
 }
