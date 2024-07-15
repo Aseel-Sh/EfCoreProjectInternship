@@ -43,26 +43,28 @@ public class PostCRUD(BloggingDbContext context) {
     //get sp way
     public async Task ViewAllPostsForABlog()
     {
-        Console.WriteLine("Enter Blog Id: ");
-        int blogId = Convert.ToInt32(Console.ReadLine());
 
-        var idParam = new SqlParameter("@BlogId", blogId);
+            Console.WriteLine("Enter Blog Id: ");
+            int blogId = Convert.ToInt32(Console.ReadLine());
 
-        var posts = await context.Posts
-                           .FromSqlRaw("EXEC GetPosts @BlogId", idParam)
-                           .ToListAsync();
+            var idParam = new SqlParameter("@BlogId", blogId);
 
-        if (posts.Count == 0)
-        {
-            Console.WriteLine("No posts found for the given blog.");
-        }
-        else
-        {
-            foreach (var post in posts)
+            var posts = await context.Posts
+                .FromSqlRaw("EXEC GetPosts @BlogId", idParam)
+                .IgnoreQueryFilters()
+                .ToListAsync();
+
+            if (posts.Count == 0)
             {
-                Console.WriteLine($"Post ID: {post.Id}, Content: {post.Content} | Row Version: {BitConverter.ToString(post.RowVersion).Replace("-", "")}");
+                Console.WriteLine("No posts found for the given blog.");
             }
-        }
+            else
+            {
+                foreach (var post in posts)
+                {
+                    Console.WriteLine($"Post ID: {post.Id}, Content: {post.Content} | Row Version: {BitConverter.ToString(post.RowVersion).Replace("-", "")}");
+                }
+            }
     }
     //old way
     /*public async Task ViewAllPostsForABlog()
